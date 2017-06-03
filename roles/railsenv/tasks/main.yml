@@ -1,0 +1,71 @@
+---
+- name: Install dependencies for railsenv
+  yum: name={{ item }} state=present
+  become: True
+  with_items:
+    - git
+    - gcc-c++
+    - curl
+    - curl-devel
+    - gpg
+    - tk-devel
+    - httpd-devel
+    - glibc-headers
+    - openssl-devel
+    - libyaml-devel
+    - libffi-devel
+    - readline
+    - zlib
+    - libxml2
+    - libxml2-devel
+    - libxslt-devel
+    - readline-devel
+    - zlib-devel
+    - gdbm-devel
+    - ncurses-devel
+    - make
+- name: Install rvm for ruby versions
+  shell: bash -lc 'sudo yum -y update'
+- name: Update gpg
+  shell: bash -lc 'gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3'
+- name: Install rvm
+  shell: bash -lc '\curl -sSL https://get.rvm.io | bash -s stable'
+- name: Add scripts for rvm to ~/.bash_profile
+  become: True
+  lineinfile:
+    dest: .bash_profile
+    line: 'if [[ -s ~/.rvm/scripts/rvm ]] ; then source ~/.rvm/scripts/rvm ; fi'
+- name: Reload .bash_profile
+  become: True
+  shell: echo "source .bash_profile"
+- name: Install ruby {{ ruby_version }}
+  shell: bash -lc 'source /usr/local/rvm/bin/rvm && rvm install "{{ rvm_ruby_version }}"'
+- name: Set default ruby version
+  shell: bash -lc 'rvm alias create default "{{ ruby_version }}"'
+- name: Set ruby version {{ ruby_version }}
+  shell: bash -lc 'rvm use {{ ruby_version }}'
+# for Rails env dependencies
+- name: Install dependencies for ImageMagic
+  yum: name={{ item }} state=present
+  with_items:
+    - libjpeg-devel
+    - libpng-devel
+    - ImageMagick
+    - ImageMagick-devel
+- name: Install dependencies for Nokogiri
+  yum: name={{ item }} state=present
+  with_items:
+    - patch
+- name: Install gem bundler and gem Rails
+  become_user: "{{ root_user }}"
+  become: True
+  gem: name={{ item }} user_install=False
+  with_items:
+    - bundler
+    - rails
+- name: Install gem Nokogiri
+  gem:
+    name: nokogiri
+    version: 1.7.2
+    state: present
+    user_install: False
