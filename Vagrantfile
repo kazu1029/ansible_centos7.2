@@ -8,6 +8,7 @@ Vagrant.configure(VAGRANT_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 22, host: 2201, id: "ssh"
   config.vm.network "private_network", ip: "192.168.33.10"
   config.ssh.forwardagent = true
+  config.vm.synced_folder "centos72/", "centos72/"
 
   config.vm.provider "virtualbox" do |v|
     v.gui = true
