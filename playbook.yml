@@ -1,0 +1,13 @@
+---
+- hosts: centos72
+  become: true
+  vars:
+    root_user: root
+    vagrant_user: vagrant
+    ruby_version: 2.2.3
+    rvm_ruby_version: ruby-2.2.3
+    nodejs_version: v6.8.1
+  roles:
+    - railsenv
+    - mysql
+    - nodejs
