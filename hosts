@@ -1,0 +1,2 @@
+[centos72]
+192.168.33.10 ansible_user=vagrant ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201
