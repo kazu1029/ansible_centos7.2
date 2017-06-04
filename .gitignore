@@ -1,1 +1,8 @@
 .vagrant/*
+*/
+!.gitignore
+!Vagrantfile
+!ansible.cfg
+!hosts
+!playbook.yml
+!roles
