@@ -6,3 +6,8 @@
 !hosts
 !playbook.yml
 !roles
+!roles/*
+!roles/mysql/*
+!roles/railsenv/*
+!roles/nodejs/*
+!roles/vim/*

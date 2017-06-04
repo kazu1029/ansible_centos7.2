@@ -1,0 +1,13 @@
+---
+- name: Install dependencies for vim
+  yum: name={{ item }} state=present
+  with_items:
+    - mercurial
+    - lua-devel
+    - ctags
+      #- name: Clone vim
+      #  git: repo=https://github.com/vim/vim.git dest=/usr/local/src/ accept_hostkey=yes
+      #- name: Compile vim
+      #  shell: "cd /usr/local/src/vim && sudo ./configure --with-features=huge --enable-multibyte --disable-selinux --prefix=/usr/local && sudo make && sudo make install"
+      #- name: Generate .vimrc
+      #  template: src=.vimrc.j2 dest=/.vimrc

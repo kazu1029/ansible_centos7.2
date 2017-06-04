@@ -9,7 +9,9 @@
     mysql_version: 5.7
     mysql_root_password: root
     nodejs_version: v6.8.1
+    dein_vim_dest: ~/Sources/Provision/Github/DeinVim
   roles:
     - railsenv
     - mysql
     - nodejs
+    - vim
