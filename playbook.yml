@@ -6,6 +6,8 @@
     vagrant_user: vagrant
     ruby_version: 2.2.3
     rvm_ruby_version: ruby-2.2.3
+    mysql_version: 5.7
+    mysql_root_password: root
     nodejs_version: v6.8.1
   roles:
     - railsenv

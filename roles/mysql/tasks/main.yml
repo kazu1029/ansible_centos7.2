@@ -1,0 +1,49 @@
+---
+- name: Install MySQL 5.7 repo
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+- name: Install MySQL 5.7
+  yum: pkg={{ item }}
+  with_items:
+    - mysql-community-server
+    - mysql-community-client
+    - MySQL-python
+- name: Start MySQL service
+  service: name=mysqld state=started enabled=true
+- name: first root password
+  shell: cat /var/log/mysqld.log | grep "temporary password" | awk '{ print $NF }'
+  register: mysql_password
+  #- name: Check mysql root password
+  #  command: mysqlshow -uroot -p '{{ mysql_password.stdout }}'
+  #  register: root_check
+  #  ignore_errors: True
+  #- name: Check mysql root password
+  #  shell: mysqlshow -uroot -p "{{ mysql_password.stdout }}"
+  #  register: root_check
+  #  ignore_errors: True
+  #- name: Set mysql root password
+  #  shell: mysql --connect-expired-password -uroot -p '{{ mysql_password.stdout }}' -e "set password for root@'localhost' = PASSWORD('{{ mysql_root_password }}')"
+  #  when: root_check.stderr.find('denied') == -1
+  #- name: Copy .my.cnf
+  #  template: src=my.cnf.j2 dest=/.my.cnf backup=true mode=0644
+  #  notify: restart mysqld
+  #  #- name: Add password to /etc/my.cnf
+  #  #  become: True
+  #- name: Changed /root/.my.cnf
+  #  template:
+  #    src: templates/my.cnf.j2
+  #    dest: /root/.my.cnf
+  #    owner: root
+  #    group: root
+  #    mode: 0644
+  #- name: Change password validation to the easy way
+  #  shell: |
+  #    mysql -uroot -p '{{ mysql_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_length=4;"
+  #    mysql -uroot -p '{{ mysql_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+  #- name: Change root user password
+  #  shell: |
+  #    mysql -uroot -p '{{ mysql_password.stdout }}' --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';"
+  #- name: Changed /etc/.my.cnf
+  #  template:
+  #    src: templates/my.cnf.j2
+  #    dest: /etc/.my.cnf
+  #  notify: restart mysqld
