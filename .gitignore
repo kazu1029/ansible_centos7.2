@@ -11,3 +11,4 @@
 !roles/railsenv/*
 !roles/nodejs/*
 !roles/vim/*
+ssh.config
