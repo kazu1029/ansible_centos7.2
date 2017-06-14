@@ -10,4 +10,25 @@
       #- name: Compile vim
       #  shell: "cd /usr/local/src/vim && sudo ./configure --with-features=huge --enable-multibyte --disable-selinux --prefix=/usr/local && sudo make && sudo make install"
       #- name: Generate .vimrc
-      #  template: src=.vimrc.j2 dest=/.vimrc
+      #  template: src=vimrc.j2 dest=/.vimrc
+- name: Install zsh
+  yum: name=zsh state=present
+- name: Check current shell
+  become: False
+  shell: echo $SHELL
+- name: Change current shell
+  become: False
+  shell: echo "chsh -s /bin/zsh"
+- name: Change default shell
+  user: user={{ vagrant_user }} shell=/bin/zsh
+- name: Chmod 644 .zshrc
+  become: True
+  file: path=.zshrc state=touch mode=0644
+  #- name: Copy .zshrc
+  #  become: True
+  #  template: src=zshrc.j2 dest=.zshrc owner={{ root_user }} group={{ root_user }} mode=0755
+  #  register: execute_copy_zshrc
+  #- debug: var=execute_copy_zshrc
+- name: Reload .zshrc
+  become: True
+  shell: echo "source .zshrc"

@@ -28,6 +28,7 @@
   shell: bash -lc 'sudo yum -y update'
 - name: Update gpg
   shell: bash -lc 'gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3'
+  ignore_errors: True
 - name: Install rvm
   shell: bash -lc '\curl -sSL https://get.rvm.io | bash -s stable'
 - name: Add scripts for rvm to ~/.bash_profile
