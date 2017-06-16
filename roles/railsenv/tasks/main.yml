@@ -24,6 +24,9 @@
     - gdbm-devel
     - ncurses-devel
     - make
+    - mysql-devel
+    - file
+    - file-devel
 - name: Install rvm for ruby versions
   shell: bash -lc 'sudo yum -y update'
 - name: Update gpg
